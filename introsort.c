@@ -7,7 +7,7 @@ void swap(int* a, int* b) {
 void heapify(int* array, int size, int index) {
   while (index < size) {
     int largest = index;
-    int left = index * 2 + 1, right = (index + 1) * 2; 
+    int left = index * 2 + 1, right = (index + 1) * 2;
     if (left < size && array[largest] < array[left]) {
       largest = left;
     } 

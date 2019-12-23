@@ -1,3 +1,4 @@
+
 |; SWAP(Ra, Rb, Rt1, Rt2)  <Reg[Ra]> <=> <Reg[Rb]>  (Rt1 and Rt2 are temporary registers, should all be different)
 .macro SWAP(Ra, Rb, Rt1, Rt2) LD(Ra, 0, Rt1) LD(Rb, 0, Rt2) ST(Rt1, 0, Rb) ST(Rt2, 0, Ra) 
 |; ADDR(Ra, Ri, Ro)        Reg[Ra] + 4 * Reg[Ri]
@@ -13,7 +14,8 @@
 |;  Compute the approximate integer logarithm of n (-> floor(log2(n))).
 |;  @param n A positive integer
 log2:
-  PUSH(LP) PUSH(BP)
+  PUSH(LP)
+  PUSH(BP)
   MOVE(SP, BP)
   PUSH(R1) PUSH(R2)
   LD(BP, -12, R1)  |; n

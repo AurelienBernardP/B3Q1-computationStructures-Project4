@@ -6,7 +6,7 @@
 .include util.asm
 .include introsort.asm
 .include heapsort.asm
-ARRAY_SIZE = 20
+ARRAY_SIZE = 100
 
 array_size: 
   LONG(ARRAY_SIZE)

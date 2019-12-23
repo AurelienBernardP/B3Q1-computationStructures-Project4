@@ -14,6 +14,7 @@ sort:
   LD(BP,-16,R2) |; load size
   CMPEQ(R2,R31,R20)|; evaluate SIZE == 0
   BNE(R20, return) |; if r20 == 1 return
+  POP(R20)
   PUSH(R2)|;Push the size
   BEQ(R31, log2, LP)
   POP(R2)

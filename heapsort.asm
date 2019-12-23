@@ -13,6 +13,9 @@ heapify:
       PUSH (R6) |; local variables
       PUSH (R5) |; local variables
       PUSH (R4) |; local variables
+      PUSH (R3) |; local variables
+      PUSH (R2) |; local variables
+      PUSH (R1) |; local variables
       LD (BP, -20, R3) |; R3 = argument 3 = index of array
       LD (BP, -16, R2) |; R2 = argument 2 = size of array
       LD (BP, -12, R1) |; R1 = argument 1 = address of array
@@ -46,7 +49,10 @@ next2:CMPEQ(R5,R3,R9) |; if R5 (largest) = R3 (index) then function ends
       ADDC(R5,0,R3) |; index = largest
       BEQ(R31,loopify,R31)
 endify: 
-      POP (R4) |; deallocating variables
+      POP (R1) |; deallocating variables
+      POP (R2)
+      POP (R3)
+      POP (R4)
       POP (R5)
       POP (R6)
       POP (R7)
@@ -69,6 +75,8 @@ heapsort:
       PUSH (R5) |; local variables
       PUSH (R4) |; local variables
       PUSH (R3) |; local variables
+      PUSH (R2) |; local variables
+      PUSH (R1) |; local variables
       LD (BP, -16, R2) |; R2 = argument 2 = size of array
       LD (BP, -12, R1) |; R1 = argument 1 = array address
       DIVC (R2, 2, R3) |; R3 = R2 / 2 = size/2
@@ -97,7 +105,9 @@ loop2:ADDR(R1, R3, R7) |; R2 = R1 + R3*4
       POP (R31) |; deallocating argument
       SUBC(R3, 1, R3) |; R3 --
       BNE(R3, loop2, R31) |; loop while R3 != 0
-end:  POP(R3) |; deallocating variables
+end:  POP(R1)|; deallocating variables
+      POP(R2)
+      POP(R3)
       POP(R4)
       POP(R5)
       POP(R6)

@@ -5,7 +5,7 @@
 
 .include util.asm
 .include quicksort.asm
-ARRAY_SIZE = 4
+ARRAY_SIZE = 20
 
 array_size: 
   LONG(ARRAY_SIZE)

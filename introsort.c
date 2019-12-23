@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
 void swap(int* a, int* b) {
   int tmp = *a;
   *a = *b;
@@ -56,11 +61,12 @@ int median3(int* array, int n) {
 
 void introsort(int* array, int n, int maxd) {
   while (n > 1) {
-    if (maxd <= 0) {
-      heapsort(array, n);
-      return;
-    }
+    // if (maxd <= 0) {
+      // heapsort(array, n);
+      // return;
+    // }
     maxd -= 1;
+    printf("******START BOUCLE");
     int pivot = median3(array, n);
 
     // Three-way partition.
@@ -83,10 +89,27 @@ void introsort(int* array, int n, int maxd) {
   } 
 }
 
-void sort(int* array, int size) {
-  if (size == 0) {
-    return;
-  }
-  int maxd = 2 * (int)log2(size);
-  introsort(array, size, maxd);
+// void sort(int* array, int size) {
+//   if (size == 0) {
+//     return;
+//   }
+//   int maxd = 2 * (int)log2(size);
+//   introsort(array, size, maxd);
+// }
+
+int main(int argc, char const *argv[])
+{
+  int* array = malloc(sizeof(int)*4);
+
+  array[0] = 0;
+  array[1] = 0;
+  array[2] = 0;
+  array[3] = 0;
+
+  introsort(array, 4, 0);
+  printf("******FINISHED\n");
+  printf("array = %d %d %d %d \n", array[0], array[1], array[2], array[3]);
+  return 0;
 }
+
+

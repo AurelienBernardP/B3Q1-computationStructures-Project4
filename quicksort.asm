@@ -66,7 +66,7 @@ BgrtA:
     BNE(R20,returnC)
     BEQ(R31,returnA,R31)
 CgrtB:
-    CMPLT(R3,R5,R20)
+    CMPLT(R4,R5,R20) |; b < c
     BNE(R20, returnA)
     BEQ(R31,returnC,R31)
 
@@ -96,12 +96,12 @@ loop3part:
     LDARR(R1,R4,R7) |; put array[i] in R7
     CMPLT(R7,R0,R20) |; array[i] < pivot
     BNE (R20,part1) |; if array[i] < pivot == true jump to part1
-    CMPLT(R7,R0,R20) |; array[i] > pivot
-    BNE(R20, part2) |;  else if array[i] > pivot == true jump to part2
+    CMPLT(R0,R7,R20) |; pivot <= array[i]
+    BNE(R20, part2) |;  else if array[i] <= pivot == flase jump to part2
     ADDC(R4,1,R4) |; else case
     POP(R7)
     CMPLT(R4,R6,R20) |; guardian
-    BNE(r20, loop3part) |; loop
+    BNE(R20, loop3part) |; loop
     BEQ(R31, continue, R31) |; exit
 
 part1:

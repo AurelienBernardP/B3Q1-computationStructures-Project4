@@ -4,7 +4,8 @@
   BR(main)
 
 .include util.asm
-.include quicksort.asm
+.include introsort.asm
+.include heapsort.asm
 ARRAY_SIZE = 20
 
 array_size: 

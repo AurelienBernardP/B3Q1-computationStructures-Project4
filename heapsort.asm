@@ -1,4 +1,4 @@
-.include util.asm
+
 |; void heapsify(int* array, int size, int index)
 |;   @param array A pointer to the array
 |;   @param size Size of the array 

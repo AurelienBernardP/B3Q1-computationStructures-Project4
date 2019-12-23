@@ -16,10 +16,10 @@ array:
 main:
   CMOVE(array, R1)     |; array address
   LDR(array_size, R2)  |; array size
-  PUSH(R3) PUSH(R2) PUSH(R1)
+  PUSH(R2) PUSH(R1)
   CALL(fill)
   CALL(shuffle)
-  CALL(quickSort, 3)
+  CALL(sort, 2)
 .breakpoint
   HALT()
 

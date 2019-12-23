@@ -1,31 +1,32 @@
-|; void quickSort(int* array, int size)
+|; void introsort(int* array, int size, int maxd)
 |;   @param array A pointer to the array
 |;   @param size Size of the array
-quickSort:
+|;   @param maxd Maximum number of recursive calls
+introsort:
     PUSH(LP)
     PUSH(BP)
     ADDC(SP,0,BP)
     PUSH(R1) |;will hold array
     PUSH(R2) |;will hold n
-    PUSH(R3) |;will hold maxd(unused in quicksort)
+    PUSH(R3) |;will hold maxd
     PUSH(R20) |; will be used to hold comparisons
     LD(BP,-12,R1) |; load array
     LD(BP,-16,R2) |; load n
     LD(BP,-20,R3) |; load maxd
     CMPLEC(R2,1,R20)|; n <= 1
     BEQ(R20, mainLoop) |;if n > 1 jump to mainloop
-    BEQ(R31, returnQuick)
+    BEQ(R31, returnintro)
 
 mainLoop:
-    |;test for maxd and switch to heapsort if needed
-    |;SUBC(R3,1,R3)
+    CMPLEC(R3,0,R20)|;test for maxd and switch to heapsort if needed
+    BNE(R20, swapToheap)
+    SUBC(R3,1,R3) |; maxd--
     PUSH(R4)|; will hold i
     PUSH(R5) |; will hold l
     PUSH(R6) |; will hold r
     PUSH(R2)|;PUSH second arg
     PUSH(R1)|;PUSH first arg
     BEQ(R31, median3, LP) |; call procedure, R0 will hold pivot value
-    |;LDARR(R1,R31,R0) |;test with first element as pivot
     POP(R1) |;POP first arg
     POP(R2) |;POP second arg
     ADDC(R31,0,R4) |; put 0 in i
@@ -35,7 +36,13 @@ mainLoop:
     BNE(R20, loop3part) |; if i<r enter loop
     BEQ(R31, continue, R31) |; if false, continue
 
-
+swapToheap:
+    PUSH(R2)|;PUSH second arg
+    PUSH(R1)|;PUSH first arg
+    BEQ(R31, heapsort, LP)
+    POP(R1) |;POP first arg
+    POP(R2) |;POP second arg
+    BEQ(R31, returnintro, 31)
 
 median3:
     PUSH(LP)
@@ -46,11 +53,11 @@ median3:
     PUSH(R3)|;R3 will hold a
     PUSH(R4)|;R4 will hold b 
     PUSH(R5)|;R5 will hold c
-    LD(BP,-12,R1)|;get arg 1
-    LD(BP,-16,R2)|;get arg 2
+    LD(BP,-12,R1)|;get arg 1 array
+    LD(BP,-16,R2)|;get arg 2 n
     SHRC(R2,1,R4) |; r4 = n/2
     SUBC(R2,1,R5)|; r5 = n-1
-    LD(R1,0,R3) |;r3 = array[0] a
+    LDARR(R1,R31,R3) |;r3 = array[0] a
     LDARR(R1,R4,R4)|; r4 = array[n/2] b
     LDARR(R1,R5,R5)|; r5 = array[n-1] c 
     CMPLT(R3,R4,R20)|; if a < b
@@ -66,7 +73,7 @@ BgrtA:
     BNE(R20,returnC)
     BEQ(R31,returnA,R31)
 CgrtB:
-    CMPLT(R4,R5,R20) |; b < c
+    CMPLT(R3,R5,R20) |; a < c
     BNE(R20, returnA)
     BEQ(R31,returnC,R31)
 
@@ -144,7 +151,7 @@ continue:
     PUSH(R3) |; push arguments
     PUSH(R5)
     PUSH(R1)
-    BEQ(R31, quickSort, LP) |; recursive call
+    BEQ(R31, introsort, LP) |; recursive call
     POP(R1) |; pop arguments
     POP(R5)
     POP(R3)
@@ -153,15 +160,15 @@ continue:
     ADD(R31,R15,R1)
     POP(R15) |; end array += r
     SUB(R2,R6,R2)
-    CMPLEC(R2,1,R20)|;guardian main loop n <= 1
-    BEQ(R20, mainLoop) |; if false loop
     POP(R6)
     POP(R5)
-    POP(R4)
-    BEQ(R31, returnQuick)
+    POP(R4)   
+    CMPLEC(R2,1,R20)|;guardian main loop n <= 1
+    BEQ(R20, mainLoop) |; if false loop
+    BEQ(R31, returnintro)
 
 
-returnQuick:
+returnintro:
     POP(R20)
     POP(R3)|; pop to the registers holding the arguments
     POP(R2)

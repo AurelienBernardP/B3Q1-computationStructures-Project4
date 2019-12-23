@@ -1,3 +1,5 @@
+.include util.asm
+
 |; void sort(int* array, int size)
 |;   @param array A pointer to the array
 |;   @param size Size of the array 

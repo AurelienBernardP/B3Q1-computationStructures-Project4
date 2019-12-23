@@ -4,10 +4,8 @@
   BR(main)
 
 .include util.asm
-.include heapsort.asm
-.include introsort.asm
 .include quicksort.asm
-ARRAY_SIZE = 10
+ARRAY_SIZE = 4
 
 array_size: 
   LONG(ARRAY_SIZE)

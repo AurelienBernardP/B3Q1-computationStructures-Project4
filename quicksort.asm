@@ -12,7 +12,7 @@ quickSort:
     LD(BP,-12,R1) |; load array
     LD(BP,-16,R2) |; load n
     LD(BP,-20,R3) |; load maxd
-    CMPLEC(R2,1,R20)|; n <= 1 
+    CMPLEC(R2,1,R20)|; n <= 1
     BEQ(R20, mainLoop) |;if n > 1 jump to mainloop
     BEQ(R31, returnQuick)
 
@@ -24,8 +24,8 @@ mainLoop:
     PUSH(R6) |; will hold r
     PUSH(R2)|;PUSH second arg
     PUSH(R1)|;PUSH first arg
-    BEQ(R31, median3, LP) |; call procedure, R0 will hold pivot value
-    |;LDARR(R1,R31,R0) test with first element as pivot
+    |;BEQ(R31, median3, LP) |; call procedure, R0 will hold pivot value
+    LDARR(R1,R31,R0) |;test with first element as pivot
     POP(R1) |;POP first arg
     POP(R2) |;POP second arg
     ADDC(R31,0,R4) |; put 0 in i
@@ -86,7 +86,7 @@ restoreMedian:
     POP(R3)
     POP(R2)
     POP(R1)
-    ADDC(BP,0,LP)
+    ADDC(BP,0,SP)
     POP(BP)
     POP(LP)
     JMP(LP, R31)
@@ -166,6 +166,7 @@ returnQuick:
     POP(R3)|; pop to the registers holding the arguments
     POP(R2)
     POP(R1)
+    ADDC(BP, 0, SP)
     POP(BP)|;POP BP LP
     POP(LP)
     JMP(LP, R31)|;Return 

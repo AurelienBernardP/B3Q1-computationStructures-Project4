@@ -6,7 +6,7 @@
 .include util.asm
 .include heapsort.asm
 .include introsort.asm
-
+.include quicksort.asm
 ARRAY_SIZE = 10
 
 array_size: 
@@ -18,10 +18,10 @@ array:
 main:
   CMOVE(array, R1)     |; array address
   LDR(array_size, R2)  |; array size
-  PUSH(R2) PUSH(R1)
+  PUSH(R3) PUSH(R2) PUSH(R1)
   CALL(fill)
   CALL(shuffle)
-  CALL(sort, 2)
+  CALL(quickSort, 3)
 .breakpoint
   HALT()
 

@@ -21,7 +21,7 @@ main:
   PUSH(R3) PUSH(R2) PUSH(R1)
   CALL(fill)
   CALL(shuffle)
-  CALL(quickSort, 2)
+  CALL(quickSort, 3)
 .breakpoint
   HALT()
 

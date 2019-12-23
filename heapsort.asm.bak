@@ -1,0 +1,104 @@
+
+|; void heapsify(int* array, int size, int index)
+|;   @param array A pointer to the array
+|;   @param size Size of the array 
+|;   @param index An index of the array 
+heapify:
+      PUSH(LP) PUSH(BP) |; save previous fram & return address
+      ADDC (SP, 0, BP) |; init current frame
+      PUSH (R10) |; used for this function
+      PUSH (R9) |; used for this function
+      PUSH (R8) |; used for this function
+      PUSH (R7) |; used for this function
+      PUSH (R6) |; used for this function
+      PUSH (R5) |; used for this function
+      PUSH (R4) |; used for this function
+      PUSH (R3) |; used for this function
+      PUSH (R2) |; used for this function
+      PUSH (R1) |; used for this function
+      LD (BP, -20, R3) |; R3 = arg 3 = index of array
+      LD (BP, -16, R2) |; R2 = arg 2 = size of array
+      LD (BP, -12, R1) |; R1 = arg 1 = address of array
+      ADDC (R2,R3,R10) |; r10 = size + index
+      CMPLT(0,R10,R10) |; size + index > 0 then r10 = 1
+      BEQ(R10,end,R31) |; if R10 = 0 then end it
+loop3: ADD(R3,0,R5) |;  largest = index
+      MULC(R3,2,R6) |; ///R6 = index * 2
+      ADDC(R6,1,R6) |; R6=  left = (index * 2) + 1
+      ADDC(R3,1,R7) |; ///R7 = index + 1
+      MULC(R7,2,R7) |; R7  = right =(index + 1)
+      CMPLT(R2,R6,R8) |; size < left then R8 = 1
+      LDARR(R1,R6,R9) |; R9 = array[left]
+      LDARR(R1,R5,R4) |; R4 = array[largest]
+      CMPLT(R4,R9,R9) |; array[largest] < array[left] then R9 = 1
+      AND(R8,R9,R9)
+      BNE(R9,next,R31)|; R9 != R8
+      ADDC(R6,0,R5) |; largest = left
+next: CMPLT(R2,R7,R8) |; size < right then R8 = 1
+      LDARR(R1,R7,R9) |; R9 = array[right]
+      CMPLT(R4,R9,R9) |; array[largest] < array[right] then R9 = 1
+      AND(R8,R9,R9)
+      BNE(R9,next2,R31)|; R9 != R8
+      ADDC(R7,0,R5) |; largest = right
+next2:CMPEQ(R5,R3,R9) |; if R5 = R3 then end it
+      BNE(R9,end,R31)
+      ADD(R1,R5,R8) |; array + largest
+      ADD(R1,R3,R9) |; array + index
+      SWAP(R8,R9,R4,R3)
+      ADDC(R5,0,R3)
+      ADDC (R2,R3,R10) |; r10 = size + index
+      CMPLT(0,R10,R10) |; size + index > 0 then r10 = 1
+      BNE(R10,loop3,R31) |; if R10 = 0 then end it
+end:  POP (R1)
+      POP (R2)
+      POP (R3)
+      POP (R4)
+      POP (R5)
+      POP (R6)
+      POP (R7)
+      POP (R8)
+      POP (R9)
+      ADDC(BP, 0, SP)
+      POP(BP)
+      POP(LP)
+      JMP(LP, R31)
+
+|; void heapsort(int* array, int size)
+|;   @param array A pointer to the array
+|;   @param size Size of the array 
+heapsort:
+      PUSH(LP) PUSH(BP) |; save previous fram & return address
+      ADDC (SP, 0, BP) |; init current frame
+      PUSH (R6) |; used for this function
+      PUSH (R5) |; used for this function
+      PUSH (R4) |; used for this function
+      PUSH (R3) |; used for this function
+      PUSH (R2) |; used for this function
+      PUSH (R1) |; used for this function
+      LD (BP, -16, R2) |; R2 = arg 2 = size of array
+      LD (BP, -12, R1) |; R1 = arg 1 = array address
+      ADDC (R31, 1, R3) |; R3 = 0 + 1 = 1
+      SHR (R2, R3, R3) |; R3 = (R2 /= 2) with R3 = 1 nb of bits to shift R3 = size/2
+      BNE(R3, loop, R31) |; If r3 != 0 then loop
+      BEQ(R31, skip, R31) |; otherwise next
+loop: SUBC(R3, 1, R3) |; R3 --
+      BEQ (R31, heapify, LP) |;Call heapify with LP to this address
+      BNE(R3, loop, R31) |; loop tant que R3 = 0
+skip: SUBC(R2, 1, R3) |; R3 = size -1
+      BEQ(R3, end1, R31) |; if R3 = 0, finish sinon loop2
+loop2:ADDR(R1, R3, R2) |; R2 = R1[R3]
+      SWAP(R1,R2, R5, R6) |; swap R1 = R2 & R2 = R1
+      BEQ (R31, heapify, LP) |; call heapify again
+      SUBC(R31, 1, R3) |; R3 --
+      BNE(R3, loop2, R31) |; If R3 = 0, then go loop
+end1:  POP(R1)
+      POP(R2)
+      POP(R3)
+      POP(R4)
+      POP(R5)
+      POP(R6)
+      ADDC(BP, 0, SP)
+      POP(BP)
+      POP(LP)
+      JMP(LP, R31)
+

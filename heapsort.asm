@@ -93,7 +93,8 @@ loop: CMPLE(R31,R3,R6) |; if 0 <= R3 then r6 = 1
       SUBC(R3, 1, R3) |; R3--;
       BEQ(R31, loop, R31)
 skip: SUBC(R2, 1, R3) |; R3 = size -1
-      BEQ(R3, end, R31) |; if R3 = 0, function ends
+      CMPLT(0,R3,R7) |; if r3 > 0 then r7 = 1
+      BEQ(R7, end, R31) |; if R3 = 0, function ends
 loop2:ADDR(R1, R3, R7) |; R2 = R1 + R3*4
       SWAP(R1,R7, R5, R6) |; swap: R1 = R2 & R2 = R1
       PUSH (R31) |; index argument 3 for heapify
